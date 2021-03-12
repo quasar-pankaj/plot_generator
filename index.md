@@ -1,10 +1,7 @@
-## Welcome to GitHub Pages
+## Welcome to Plotto: The Plot Generator
+This is a flutter version of William Wallace Cook's Book Plotto. I created this as a learning experience in building Flutter Apps, but any kind of contribution is welcome including code, financial, comments, suggestions etc. Writers can use it to break Writer's Block. Almost all the functionality of the book is implemented except the includes.
 
-You can use the [editor on GitHub](https://github.com/quasar-pankaj/plot_generator/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
+### How to use
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
