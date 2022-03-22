@@ -6,3 +6,7 @@ Writers may find it useful to generate ideas.
 # How to use
 1. Click 'Generate'. This will generate a basic scenario.
 2. Follow it up by clicking Lead-in or Carry-on to more deeply explore the idea.
+
+# Demo Video
+https://user-images.githubusercontent.com/4270836/159447084-d5564095-07fb-4271-8730-d3bd4ab3cfd8.mp4
+
