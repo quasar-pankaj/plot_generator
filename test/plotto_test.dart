@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter_test/flutter_test.dart';
 import 'package:plot_generator/pages/plotto.dart';
-import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 
 void main() {
