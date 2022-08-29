@@ -11,18 +11,14 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset('assets/images/studious.gif'),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-                  child: Text(
-                    "Plotto:\nThe Plot Generator",
-                    style: TextStyle(
-                      color: Colors.indigo,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40,
-                    ),
-                    textAlign: TextAlign.center,
+                Text(
+                  "Plotto:\nThe Plot Generator",
+                  style: TextStyle(
+                    color: Colors.indigo,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(18.0),

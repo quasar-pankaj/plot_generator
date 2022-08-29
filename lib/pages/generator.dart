@@ -136,8 +136,6 @@ class Generator extends StatelessWidget {
                 icon: Icons.electrical_services_rounded,
                 text: "Lead-Ins",
                 size: 32.0,
-                splashColor: Theme.of(context).splashColor,
-                color: Theme.of(context).buttonColor,
                 callback: () {
                   _bloc.add(GeneratorEvents.lead_in);
                 },
@@ -146,8 +144,6 @@ class Generator extends StatelessWidget {
                 icon: Icons.restore_page_rounded,
                 text: "New Plot",
                 size: 48.0,
-                splashColor: Theme.of(context).primaryColor,
-                color: Theme.of(context).buttonColor,
                 callback: () {
                   _bloc.add(GeneratorEvents.generate);
                 },
@@ -156,8 +152,6 @@ class Generator extends StatelessWidget {
                 icon: Icons.nat_rounded,
                 text: "Carry-Ons",
                 size: 32.0,
-                splashColor: Theme.of(context).splashColor,
-                color: Theme.of(context).buttonColor,
                 callback: () {
                   _bloc.add(GeneratorEvents.carry_on);
                 },
@@ -169,25 +163,13 @@ class Generator extends StatelessWidget {
     );
   }
 
-  RaisedButton buildButton({
+  ElevatedButton buildButton({
     IconData icon,
     String text,
     VoidCallback callback,
-    Color color,
-    Color splashColor,
     double size,
   }) {
-    return RaisedButton(
-      color: color,
-      splashColor: splashColor,
-      elevation: 6,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50.0),
-        side: BorderSide(
-          color: Colors.white,
-          width: 1.0,
-        ),
-      ),
+    return ElevatedButton(
       onPressed: callback,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
