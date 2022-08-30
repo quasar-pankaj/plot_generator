@@ -1,11 +1,13 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
-import 'package:plot_generator/pages/character.dart';
-import 'package:plot_generator/pages/conflict_reference.dart';
-import 'package:plot_generator/pages/generator_events.dart';
-import 'package:plot_generator/pages/generator_states.dart';
-import 'package:plot_generator/pages/plotto.dart';
-import 'package:plot_generator/pages/predicate.dart';
-import 'package:plot_generator/pages/subject.dart';
+import 'character.dart';
+import 'conflict_reference.dart';
+import 'generator_events.dart';
+import 'generator_states.dart';
+import 'plotto.dart';
+import 'predicate.dart';
+import 'subject.dart';
 
 import 'outcome.dart';
 
@@ -16,14 +18,16 @@ class GeneratorBloc extends Bloc<GeneratorEvents, GeneratorState> {
   Outcome _outcome;
   List<ConflictLink> _links = [];
 
-  GeneratorBloc() : super(LoadingState());
+  GeneratorBloc() : super(LoadingState()) {
+    on<GeneratorEvents>(
+        (event, emit) async => emit(await mapEventToState(event)));
+  }
 
-  @override
-  Stream<GeneratorState> mapEventToState(GeneratorEvents event) async* {
+  FutureOr<GeneratorState> mapEventToState(GeneratorEvents event) async {
     switch (event) {
       case GeneratorEvents.load:
         await _plotto.parse();
-        yield StartState();
+        return StartState();
         break;
       case GeneratorEvents.generate:
         _subject = _plotto.randomSubject;
@@ -42,7 +46,7 @@ class GeneratorBloc extends Bloc<GeneratorEvents, GeneratorState> {
 
         description = normalize(description);
 
-        yield FilledState(
+        return FilledState(
             generatedText: description,
             group: "Undefined",
             subgroup: "Undefined",
@@ -60,7 +64,7 @@ class GeneratorBloc extends Bloc<GeneratorEvents, GeneratorState> {
         final list = _links.map((e) => _plotto.describeConflict(e)).toList();
         String text = list.reduce((value, element) => value + "\n" + element);
         text = normalize(text);
-        yield FilledState(
+        return FilledState(
             generatedText: text,
             group: "None",
             subgroup: "None",
@@ -78,12 +82,15 @@ class GeneratorBloc extends Bloc<GeneratorEvents, GeneratorState> {
         final list = _links.map((e) => _plotto.describeConflict(e)).toList();
         String text = list.reduce((value, element) => value + "\n" + element);
         text = normalize(text);
-        yield FilledState(
+        return FilledState(
             generatedText: text,
             group: "None",
             subgroup: "None",
             description:
                 "${_subject.description}\n${_predicate.description}\n${_outcome.description}");
+        break;
+      default:
+        return StartState();
         break;
     }
   }

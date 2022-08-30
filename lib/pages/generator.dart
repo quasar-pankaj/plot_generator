@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plot_generator/pages/generator_bloc.dart';
 import 'package:plot_generator/pages/generator_events.dart';
-import 'package:plot_generator/pages/generator_states.dart';
-import 'package:plot_generator/pages/splash_screen.dart';
+
+import 'generator_bloc.dart';
+import 'generator_states.dart';
+import 'splash_screen.dart';
 
 class Generator extends StatelessWidget {
   final TextEditingController _controller = TextEditingController(text: '');
-  GeneratorBloc _bloc;
   @override
   Widget build(BuildContext context) {
-    _bloc = BlocProvider.of<GeneratorBloc>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Plotto: The Story Plot Generator",
+    return BlocProvider(
+      create: (context) => GeneratorBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Plotto: The Story Plot Generator",
+          ),
         ),
+        body: buildUI(context),
+        backgroundColor: Theme.of(context).backgroundColor,
       ),
-      body: buildUI(context),
-      backgroundColor: Theme.of(context).backgroundColor,
     );
   }
 
@@ -26,7 +28,7 @@ class Generator extends StatelessWidget {
     return BlocBuilder<GeneratorBloc, GeneratorState>(
       builder: (BuildContext context, GeneratorState state) {
         if (state is LoadingState) {
-          _bloc.add(GeneratorEvents.load);
+          BlocProvider.of<GeneratorBloc>(context).add(GeneratorEvents.load);
           return SplashScreen();
         } else {
           return buildMainArea(context, state);
@@ -137,7 +139,8 @@ class Generator extends StatelessWidget {
                 text: "Lead-Ins",
                 size: 32.0,
                 callback: () {
-                  _bloc.add(GeneratorEvents.lead_in);
+                  BlocProvider.of<GeneratorBloc>(context)
+                      .add(GeneratorEvents.lead_in);
                 },
               ),
               buildButton(
@@ -145,7 +148,8 @@ class Generator extends StatelessWidget {
                 text: "New Plot",
                 size: 48.0,
                 callback: () {
-                  _bloc.add(GeneratorEvents.generate);
+                  BlocProvider.of<GeneratorBloc>(context)
+                      .add(GeneratorEvents.generate);
                 },
               ),
               buildButton(
@@ -153,7 +157,8 @@ class Generator extends StatelessWidget {
                 text: "Carry-Ons",
                 size: 32.0,
                 callback: () {
-                  _bloc.add(GeneratorEvents.carry_on);
+                  BlocProvider.of<GeneratorBloc>(context)
+                      .add(GeneratorEvents.carry_on);
                 },
               ),
             ],
