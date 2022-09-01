@@ -54,7 +54,7 @@ flutter:
     - assets/names_male.json
     - assets/plotto.json
     - assets/plotto.xml
-    - assets/images/studious.gif
+    - assets/images/splash.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
