@@ -1,10 +1,10 @@
 import 'package:plot_generator/pages/conflict.dart';
 import 'package:plot_generator/pages/group.dart';
-import 'package:plot_generator/pages/plotto.dart';
+import 'package:plot_generator/pages/xml_plotto.dart';
 import 'package:xml/xml.dart';
 
 class Permutation {
-  Plotto _plotto;
+  XmlPlotto _plotto;
   String number;
   String description;
   List<String> characters;
@@ -12,7 +12,7 @@ class Permutation {
   List<String> options;
 
   Permutation(
-    Plotto plotto, {
+    XmlPlotto plotto, {
     this.number,
     this.description,
     this.characters,
@@ -20,7 +20,7 @@ class Permutation {
     this.options,
   }) : _plotto = plotto;
 
-  Permutation.fromXml(Plotto plotto, XmlNode node) : _plotto = plotto {
+  Permutation.fromXml(XmlPlotto plotto, XmlNode node) : _plotto = plotto {
     number = node.getAttribute("number");
     description = node.innerText;
     final chnodes = node.findElements("character-link");

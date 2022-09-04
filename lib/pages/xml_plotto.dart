@@ -13,10 +13,10 @@ import 'package:plot_generator/pages/random_mixin.dart';
 import 'package:plot_generator/pages/subject.dart';
 import 'package:xml/xml.dart';
 
-class Plotto with RandomMixin {
+class XmlPlotto with RandomMixin {
   BuildContext context;
 
-  Plotto({this.context});
+  XmlPlotto({this.context});
 
   List<Character> characters;
   List<Subject> subjects;

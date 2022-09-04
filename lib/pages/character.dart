@@ -1,20 +1,20 @@
-import 'package:plot_generator/pages/plotto.dart';
+import 'package:plot_generator/pages/xml_plotto.dart';
 import 'package:xml/xml.dart';
 
 class Character {
-  Plotto _plotto;
+  XmlPlotto _plotto;
   String designation;
   Sex sex;
   String description;
 
   Character(
-    Plotto plotto, {
+    XmlPlotto plotto, {
     this.designation,
     this.sex,
     this.description,
   }) : _plotto = plotto;
 
-  Character.fromXml(Plotto plotto, XmlNode xmlNode) : _plotto = plotto {
+  Character.fromXml(XmlPlotto plotto, XmlNode xmlNode) : _plotto = plotto {
     designation = xmlNode.getAttribute("designation");
     String gender = xmlNode.getAttribute("sex");
     switch (gender) {

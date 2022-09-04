@@ -1,8 +1,8 @@
-import 'package:plot_generator/pages/plotto.dart';
+import 'package:plot_generator/pages/xml_plotto.dart';
 import 'package:xml/xml.dart';
 
 class ConflictLink {
-  Plotto _plotto;
+  XmlPlotto _plotto;
   String ref;
   String category;
   String subcategory;
@@ -10,7 +10,7 @@ class ConflictLink {
   String option;
 
   ConflictLink(
-    Plotto plotto, {
+    XmlPlotto plotto, {
     this.ref,
     this.category,
     this.subcategory,
@@ -18,7 +18,7 @@ class ConflictLink {
     this.option,
   }) : _plotto = plotto;
 
-  ConflictLink.fromXml(Plotto plotto, XmlNode xmlNode) : _plotto = plotto {
+  ConflictLink.fromXml(XmlPlotto plotto, XmlNode xmlNode) : _plotto = plotto {
     ref = xmlNode.getAttribute("ref");
     category = xmlNode.getAttribute("category");
     subcategory = xmlNode.getAttribute("subcategory");
@@ -26,7 +26,7 @@ class ConflictLink {
     option = xmlNode.getAttribute("option");
   }
 
-  factory ConflictLink.createFromXml(Plotto plotto, XmlNode node) {
+  factory ConflictLink.createFromXml(XmlPlotto plotto, XmlNode node) {
     if (node.children.length > 0) {
       return TransformableLink.fromXml(plotto, node);
     } else {
@@ -41,7 +41,7 @@ class TransformableLink extends ConflictLink {
   List<String> remove;
 
   TransformableLink(
-    Plotto plotto, {
+    XmlPlotto plotto, {
     ref,
     category,
     subcategory,
@@ -50,7 +50,7 @@ class TransformableLink extends ConflictLink {
     this.remove,
   }) : super(plotto, ref: ref, category: category, subcategory: subcategory);
 
-  TransformableLink.fromXml(Plotto plotto, XmlNode xmlNode)
+  TransformableLink.fromXml(XmlPlotto plotto, XmlNode xmlNode)
       : super.fromXml(plotto, xmlNode) {
     final tnodes = xmlNode.findElements("transform");
     final anodes = xmlNode.findElements("add");

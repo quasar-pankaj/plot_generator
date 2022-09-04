@@ -5,22 +5,87 @@ import 'character.dart';
 import 'conflict_reference.dart';
 import 'generator_events.dart';
 import 'generator_states.dart';
-import 'plotto.dart';
+import 'xml_plotto.dart';
 import 'predicate.dart';
 import 'subject.dart';
 
 import 'outcome.dart';
 
-class GeneratorBloc extends Bloc<GeneratorEvents, GeneratorState> {
-  Plotto _plotto = Plotto();
+class GeneratorBloc extends Bloc<GeneratorEvent, GeneratorState> {
+  XmlPlotto _plotto = XmlPlotto();
   Subject _subject;
   Predicate _predicate;
   Outcome _outcome;
   List<ConflictLink> _links = [];
 
   GeneratorBloc() : super(LoadingState()) {
-    on<GeneratorEvents>(
-        (event, emit) async => emit(await mapEventToState(event)));
+    // on<GeneratorEvents>(
+    //     (event, emit) async => emit(await mapEventToState(event)));
+
+    on<AppLoadRequested>((event, emit) async => await _onLoading(event, emit));
+    on<SkeletonRequested>((event, emit) => emit(_onSkeletonGenerated(event)));
+    on<ConflictsRequested>((event, emit) => emit(_onConflictRequested(event)));
+    on<LeadInRequested>((event, emit) => emit(_onLeadinRequested(event)));
+    on<CarryOnRequested>((event, emit) => emit(_onCarryOnRequested(event)));
+    on<IncludeRequested>((event, emit) => emit(_onIncludeRequested(event)));
+    on<SynopsisRequested>((event, emit) => emit(_onSynopsisRequested(event)));
+  }
+
+  Future<void> _onLoading(
+    AppLoadRequested event,
+    Emitter<GeneratorState> emit,
+  ) async {
+    emit(LoadingState());
+    await _plotto.parse();
+    emit(LoadedState());
+  }
+
+  SkeletonGeneratedState _onSkeletonGenerated(SkeletonRequested event) {
+    final Subject subject = _plotto.randomSubject;
+    final Predicate predicate = _plotto.randomPredicate;
+    final Outcome outcome = _plotto.randomOutcome;
+
+    return SkeletonGeneratedState(subject, predicate, outcome);
+  }
+
+  CarryOnFetchedState _onConflictRequested(ConflictsRequested event) {
+    final ConflictLink link = _plotto.followupPredicate(event.predicate);
+
+    return CarryOnFetchedState(_plotto.fetch(link));
+  }
+
+  LeadInFetchedState _onLeadinRequested(LeadInRequested event) {
+    final conflicts = _plotto.followupLeadIns(event.conflict);
+    final rnd = _plotto.getRandom(conflicts.length);
+
+    return LeadInFetchedState(conflicts[rnd]);
+  }
+
+  CarryOnFetchedState _onCarryOnRequested(CarryOnRequested event) {
+    final conflicts = _plotto.followupLeadIns(event.conflict);
+    final rnd = _plotto.getRandom(conflicts.length);
+
+    return CarryOnFetchedState(conflicts[rnd]);
+  }
+
+  IncludeFetchedState _onIncludeRequested(IncludeRequested event) {
+    final conflicts = _plotto.followupLeadIns(event.conflict);
+    final rnd = _plotto.getRandom(conflicts.length);
+
+    return IncludeFetchedState(conflicts[rnd]);
+  }
+
+  SynopsisFetchedState _onSynopsisRequested(SynopsisRequested event) {
+    String synopsis = event.subject.description.trim() + '\n';
+    synopsis += event.predicate.description.trim() + '\n';
+    for (var element in event.conflicts) {
+      for (var perms in element.permutations) {
+        synopsis += perms.description.trim() + '\n';
+      }
+    }
+    synopsis += event.outcome.description;
+
+    return SynopsisFetchedState(synopsis);
   }
 
   FutureOr<GeneratorState> mapEventToState(GeneratorEvents event) async {

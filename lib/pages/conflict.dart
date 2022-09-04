@@ -1,11 +1,11 @@
 import 'package:plot_generator/pages/group.dart';
 import 'package:plot_generator/pages/permutation.dart';
-import 'package:plot_generator/pages/plotto.dart';
+import 'package:plot_generator/pages/xml_plotto.dart';
 import 'package:plot_generator/pages/random_mixin.dart';
 import 'package:xml/xml.dart';
 
 class Conflict with RandomMixin {
-  Plotto _plotto;
+  XmlPlotto _plotto;
   String id;
   String category;
   String subcategory;
@@ -14,7 +14,7 @@ class Conflict with RandomMixin {
   List<Group> carryons;
 
   Conflict(
-    Plotto plotto, {
+    XmlPlotto plotto, {
     this.id,
     this.category,
     this.subcategory,
@@ -23,7 +23,7 @@ class Conflict with RandomMixin {
     this.carryons,
   }) : _plotto = plotto;
 
-  Conflict.fromXml(Plotto plotto, XmlNode node) : _plotto = plotto {
+  Conflict.fromXml(XmlPlotto plotto, XmlNode node) : _plotto = plotto {
     id = node.getAttribute("id");
     category = node.getAttribute("category");
     subcategory = node.getAttribute("subcategory");

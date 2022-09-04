@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:plot_generator/pages/plotto.dart';
+import 'package:plot_generator/pages/xml_plotto.dart';
 import 'package:plot_generator/pages/random_mixin.dart';
 import 'package:xml/xml.dart';
 
@@ -8,7 +8,7 @@ import 'conflict_reference.dart';
 
 class Group extends ListBase<ConflictLink> with RandomMixin {
   List<ConflictLink> _references;
-  Plotto _plotto;
+  XmlPlotto _plotto;
   Mode mode;
 
   @override
@@ -28,7 +28,7 @@ class Group extends ListBase<ConflictLink> with RandomMixin {
     _references[index] = value;
   }
 
-  Group.fromXml(Plotto plotto, XmlNode node) : _plotto = plotto {
+  Group.fromXml(XmlPlotto plotto, XmlNode node) : _plotto = plotto {
     mode = node.getAttribute("mode") == "include" ? Mode.include : Mode.choose;
     final confnodes = node.findElements("conflict-link");
     _references =

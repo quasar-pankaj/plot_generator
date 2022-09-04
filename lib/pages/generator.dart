@@ -1,201 +1,150 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plot_generator/pages/conflict.dart';
 import 'package:plot_generator/pages/generator_events.dart';
+import 'package:plot_generator/pages/outcome.dart';
+import 'package:plot_generator/pages/predicate.dart';
+import 'package:plot_generator/pages/splash_screen.dart';
+import 'package:plot_generator/pages/subject.dart';
 
 import 'generator_bloc.dart';
 import 'generator_states.dart';
-import 'splash_screen.dart';
 
 class Generator extends StatelessWidget {
-  final TextEditingController _controller = TextEditingController(text: '');
+  const Generator({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    Subject subject;
+    Predicate predicate;
+    Outcome outcome;
+    List<Conflict> conflicts = [];
+
     return BlocProvider(
       create: (context) => GeneratorBloc(),
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Plotto: The Story Plot Generator",
+            'Plotto: The Plot Generator',
           ),
         ),
-        body: buildUI(context),
-        backgroundColor: Theme.of(context).backgroundColor,
-      ),
-    );
-  }
-
-  Widget buildBody(BuildContext context) {
-    return BlocBuilder<GeneratorBloc, GeneratorState>(
-      builder: (BuildContext context, GeneratorState state) {
-        if (state is LoadingState) {
-          BlocProvider.of<GeneratorBloc>(context).add(GeneratorEvents.load);
-          return SplashScreen();
-        } else {
-          return buildMainArea(context, state);
-        }
-      },
-    );
-  }
-
-  Padding buildUI(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.indigo,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 1.3,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(),
-              ),
-              Container(
-                height: 85,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: Colors.indigoAccent,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          buildBody(context),
-        ],
-      ),
-    );
-  }
-
-  Column buildMainArea(BuildContext context, GeneratorState state) {
-    _controller.text = state.generatedText;
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 4.0,
-            left: 4.0,
-            right: 4.0,
-            bottom: 10.0,
-          ),
-          child: Text(
-            '${state.description}',
-            textScaleFactor: 1.2,
-            style: TextStyle(
-              color: Colors.white,
-            ),
+        body: BlocBuilder<GeneratorBloc, GeneratorState>(
+          builder: (context, state) {
+            if (state is StartState) {
+              BlocProvider.of<GeneratorBloc>(context).add(AppLoadRequested());
+              return SplashScreen();
+            } else if (state is LoadedState) {
+              return SplashScreen();
+            } else if (state is SkeletonGeneratedState) {
+              subject = state.subject;
+              predicate = state.predicate;
+              outcome = state.outcome;
+              conflicts.clear();
+            } else {}
+            return _buildList(subject, predicate, conflicts, outcome);
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            BlocProvider.of<GeneratorBloc>(context).add(SkeletonRequested());
+          },
+          child: Icon(
+            Icons.new_label,
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).splashColor,
-                border: Border.all(
-                  width: 1.0,
-                  style: BorderStyle.solid,
-                  color: Colors.white,
-                ),
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8.0),
-                ),
-              ),
-              child: TextField(
-                keyboardType: TextInputType.multiline,
-                minLines: null,
-                maxLines: null,
-                expands: true,
-                controller: _controller,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 1,
-                    horizontal: 5,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.blue,
+          shape: CircularNotchedRectangle(),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              buildButton(
-                icon: Icons.electrical_services_rounded,
-                text: "Lead-Ins",
-                size: 32.0,
-                callback: () {
-                  BlocProvider.of<GeneratorBloc>(context)
-                      .add(GeneratorEvents.lead_in);
-                },
-              ),
-              buildButton(
-                icon: Icons.restore_page_rounded,
-                text: "New Plot",
-                size: 48.0,
-                callback: () {
-                  BlocProvider.of<GeneratorBloc>(context)
-                      .add(GeneratorEvents.generate);
-                },
-              ),
-              buildButton(
-                icon: Icons.nat_rounded,
-                text: "Carry-Ons",
-                size: 32.0,
-                callback: () {
-                  BlocProvider.of<GeneratorBloc>(context)
-                      .add(GeneratorEvents.carry_on);
-                },
-              ),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
-  ElevatedButton buildButton({
-    IconData icon,
-    String text,
-    VoidCallback callback,
-    double size,
-  }) {
-    return ElevatedButton(
-      onPressed: callback,
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Column(
-          children: [
-            Center(
-              child: Icon(
-                icon,
-                size: size,
+            children: <Widget>[
+              IconButton(
+                tooltip: 'Open navigation menu',
+                icon: const Icon(Icons.menu),
+                onPressed: () {},
                 color: Colors.white,
               ),
-            ),
-            Center(
-              child: Text(
-                text,
-                style: TextStyle(color: Colors.white),
+              //const Spacer(),
+              IconButton(
+                tooltip: 'Search',
+                icon: const Icon(Icons.search),
+                onPressed: () {},
+                color: Colors.white,
+              ),
+              IconButton(
+                tooltip: 'Favorite',
+                icon: const Icon(Icons.favorite),
+                onPressed: () {},
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ),
+        drawer: Drawer(backgroundColor: Colors.amber),
+      ),
+    );
+  }
+
+  Widget _buildList(
+    Subject subject,
+    Predicate predicate,
+    List<Conflict> conflicts,
+    Outcome outcome,
+  ) {
+    if (conflicts.isEmpty) {
+      return Center(
+        child: Container(
+          color: Colors.deepOrange,
+          child: Text(
+            'Nothing here yet. Start by clicking the FAB',
+            style: TextStyle(fontSize: 40),
+          ),
+        ),
+      );
+    }
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (BuildContext context, int index) {
+        if (index == 0) {
+          return ListTile(
+            title: subject == null
+                ? Text('Nothing here yet')
+                : Text(subject.description),
+          );
+        } else if (index == 1) {
+          return ListTile(
+            title: predicate == null
+                ? Text('Nothing here yet')
+                : Text(predicate.description),
+          );
+        } else if (index == conflicts.length + 2) {
+          return ListTile(
+            title: outcome == null
+                ? Text('Nothing here yet')
+                : Text(outcome.description),
+          );
+        } else {
+          return Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: ListTile(
+              title: Text(conflicts[index - 2].permutations[0].description),
+              leading: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.arrow_back,
+                ),
+              ),
+              trailing: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.arrow_forward,
+                ),
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
   }
 }
