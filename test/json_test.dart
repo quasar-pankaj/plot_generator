@@ -13,12 +13,14 @@ void main() {
   });
 
   test('Contains data', () async {
-    final data = await _plotto.fetchJson();
+    final data = await _plotto.loadJson();
     expect(data, isNotNull);
-    final Map<String, dynamic> p = data as Map<String, dynamic>;
+    final Map<String, dynamic> p = data;
     expect(p, isNotNull);
-
-    final List<String> masterClauseA = List<String>.from(p['masterClauseA']);
-    expect(masterClauseA.length, 15);
+    expect(_plotto.masterClauseA.length, 15);
+    expect(_plotto.masterClauseC.length, 15);
+    expect(_plotto.characters.length, 59);
+    expect(_plotto.masterClauseB.length, 61);
+    expect(_plotto.conflicts.length, 1928);
   });
 }
