@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plot_generator/pages/generator_bloc.dart';
-
-import 'pages/generator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,12 +31,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
             .copyWith(secondary: Colors.blueAccent),
       ),
-      home: SafeArea(
-        child: BlocProvider<GeneratorBloc>(
-          create: (context) => GeneratorBloc(),
-          child: Generator(),
-        ),
-      ),
+      // home: SafeArea(
+      //   child: BlocProvider<GeneratorBloc>(
+      //     create: (context) => GeneratorBloc(),
+      //     child: Generator(),
+      //   ),
+      // ),
     );
   }
 }

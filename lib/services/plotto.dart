@@ -1,25 +1,26 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:plot_generator/pages/master_clause_b.dart';
-import 'package:plot_generator/pages/master_conflict.dart';
-import 'package:plot_generator/pages/random_mixin.dart';
 
-class JsonPlotto with RandomMixin {
-  JsonPlotto._private();
-  static JsonPlotto _instance;
-  factory JsonPlotto.getInstance() {
-    _instance ??= JsonPlotto._private();
-    return _instance;
+import 'master_clause_b.dart';
+import 'master_conflict.dart';
+import 'random_mixin.dart';
+
+class Plotto with RandomMixin {
+  Plotto._private();
+  static Plotto? _instance;
+  factory Plotto.getInstance() {
+    _instance ??= Plotto._private();
+    return _instance!;
   }
 
-  List<String> masterClauseA;
-  List<String> masterClauseC;
-  Map<String, String> characters;
-  List<MasterClauseB> masterClauseB;
-  Map<String, MasterConflict> conflicts;
+  late final List<String> masterClauseA;
+  late final List<String> masterClauseC;
+  late final Map<String, String> characters;
+  late final List<MasterClauseB> masterClauseB;
+  late final Map<String, MasterConflict> conflicts;
 
-  Future<Map<String, dynamic>> loadJson() async {
+  Future<void> loadJson() async {
     String data = await rootBundle.loadString("assets/plotto.json");
     final Map<String, dynamic> json = Map.from(jsonDecode(data));
     masterClauseA = List.from(json['masterClauseA']);
@@ -30,21 +31,24 @@ class JsonPlotto with RandomMixin {
     final Map<String, dynamic> c = json['conflicts'];
     conflicts =
         c.map((key, value) => MapEntry(key, MasterConflict.fromJson(value)));
-    return json;
   }
 
   String get randomAClause {
-    final int rnd = getRandom(15);
+    final int rnd = getRandom(masterClauseA.length);
     return masterClauseA[rnd];
   }
 
   String get randomCClause {
-    final int rnd = getRandom(15);
+    final int rnd = getRandom(masterClauseC.length);
     return masterClauseC[rnd];
   }
 
   MasterClauseB get randomBClause {
-    final int rnd = getRandom(15);
+    final int rnd = getRandom(masterClauseB.length);
     return masterClauseB[rnd];
+  }
+
+  MasterConflict fetchConflictById(String id) {
+    return conflicts[id]!;
   }
 }

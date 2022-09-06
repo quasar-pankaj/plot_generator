@@ -1,11 +1,11 @@
 class MasterConflict {
-  String group;
-  String subgroup;
-  int bclause;
-  String conflictid;
-  dynamic leadins;
-  dynamic carryons;
-  dynamic description;
+  late final String group;
+  late final String subgroup;
+  late final int bclause;
+  late final String conflictid;
+  late final dynamic leadins;
+  late final dynamic carryons;
+  late final dynamic description;
 
   MasterConflict.fromJson(dynamic json) {
     group = json['group'];
