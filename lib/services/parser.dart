@@ -11,13 +11,15 @@ class Parser with RandomMixin {
   List<String> get links => _links;
 
   void start(Map<String, dynamic> node) {
-    Map<String, dynamic> copy = Map.from(node);
-    _processMap(copy);
+    _processMap(node);
   }
 
   void _processMap(Map<String, dynamic> node) {
     if (node.containsKey('op')) {
       _parseOp(node);
+    }
+    if (!node.containsKey('op') && node.containsKey('v')) {
+      _parseV(node['v']);
     }
     if (node.containsKey('tfm')) {
       _processTransform(Map.from(node));
@@ -25,15 +27,11 @@ class Parser with RandomMixin {
     if (node.containsKey('start')) {
       _processStart(node);
     }
-    if (node.containsKey('v')) {
-      _parseV(node['v']);
-    }
   }
 
   void _parseOp(Map<String, dynamic> node) {
     String op = node['op'];
     dynamic v = node['v'];
-    node.removeWhere((key, value) => key == 'op' || key == 'v');
     switch (op) {
       case '?':
         _processChoose(v as List<dynamic>);
@@ -47,12 +45,12 @@ class Parser with RandomMixin {
   void _parseV(dynamic v) {
     if (v is List) {
       _processList(v);
-    }
-    if (v is String) {
+    } else if (v is String) {
       _processString(v);
-    }
-    if (v is Map) {
+    } else if (v is Map) {
       _processMap(Map.from(v));
+    } else {
+      _raiseError();
     }
   }
 
@@ -91,5 +89,5 @@ class Parser with RandomMixin {
     }
   }
 
-  void _processListDescription(description) {}
+  void _raiseError() {}
 }

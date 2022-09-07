@@ -5,7 +5,7 @@ import 'master_conflict.dart';
 
 class ConflictWrapper {
   late final MasterConflict _conflict;
-  ConflictWrapper({required conflict}) : _conflict = conflict;
+  ConflictWrapper({required MasterConflict conflict}) : _conflict = conflict;
 
   String get description {
     if (_conflict.description is String) {
