@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:plot_generator/services/parser.dart';
 import 'package:plot_generator/services/plotto.dart';
 
 void main() {
@@ -43,5 +44,35 @@ void main() {
     final bClause = _plotto.randomBClause;
     final conflict = bClause.randomConflict;
     expect(conflict, isNotNull);
+  });
+
+  test('Parses leadins correctly', () {
+    final conflict = _plotto.conflicts['59'];
+    final leadins = conflict!.leadins;
+    expect(leadins, isNotNull);
+  });
+
+  test('Fetches strange conflicts leadins', () {
+    final conflict = _plotto.conflicts['851-6'];
+    final leadins = conflict!.leadins;
+    expect(leadins, isNotNull);
+  });
+
+  test('Fetches strange conflicts carryons', () {
+    final conflict = _plotto.conflicts['851-6'];
+    final carryons = conflict!.carryons;
+    expect(carryons, isNotNull);
+  });
+
+  test('Parses the json', () {
+    final conflict = _plotto.conflicts['60'];
+    expect(conflict, isNotNull);
+    final leadins = conflict!.leadins;
+    expect(leadins, isNotNull);
+    final Parser parser = Parser();
+    parser.start(leadins);
+    final description = parser.description;
+    expect(description, isNotNull);
+    expect(description, isNotEmpty);
   });
 }

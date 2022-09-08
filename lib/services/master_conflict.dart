@@ -12,8 +12,8 @@ class MasterConflict {
     subgroup = json['subgroup'];
     bclause = json['bclause'];
     conflictid = json['conflictid'];
-    leadins = json['leadins'];
-    carryons = json['carryons'];
+    leadins = json['leadIns'];
+    carryons = json['carryOns'];
     description = json['description'];
   }
 }

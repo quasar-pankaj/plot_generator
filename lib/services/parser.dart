@@ -1,31 +1,48 @@
-import 'package:plot_generator/services/conflict_wrapper.dart';
-import 'package:plot_generator/services/master_conflict.dart';
-import 'package:plot_generator/services/plotto.dart';
-import 'package:plot_generator/services/random_mixin.dart';
+import 'conflict_wrapper.dart';
+import 'master_conflict.dart';
+import 'plotto.dart';
+import 'random_mixin.dart';
 
 class Parser with RandomMixin {
   String _description = '';
-  List<String> _links = [];
+  List<dynamic> _leadins = [];
+  List<dynamic> _carryons = [];
+
+  String _processing = '';
+  final _Stack _processingStack = _Stack();
 
   String get description => _description;
-  List<String> get links => _links;
+  List<dynamic> get leadins => _leadins;
+  List<dynamic> get carryons => _carryons;
 
   void start(Map<String, dynamic> node) {
     _processMap(node);
   }
 
   void _processMap(Map<String, dynamic> node) {
+    if (_processing.isNotEmpty) {
+      _processingStack.push(_processing);
+    }
+
+    _processing = '';
+
     if (node.containsKey('op')) {
       _parseOp(node);
     }
     if (!node.containsKey('op') && node.containsKey('v')) {
-      _parseV(node['v']);
+      _processV(node['v']);
     }
     if (node.containsKey('tfm')) {
       _processTransform(Map.from(node));
     }
     if (node.containsKey('start')) {
       _processStart(node);
+    }
+
+    _description += _processing;
+
+    if (_processingStack.canPop()) {
+      _processing = _processingStack.pop();
     }
   }
 
@@ -42,7 +59,7 @@ class Parser with RandomMixin {
     }
   }
 
-  void _parseV(dynamic v) {
+  void _processV(dynamic v) {
     if (v is List) {
       _processList(v);
     } else if (v is String) {
@@ -56,7 +73,7 @@ class Parser with RandomMixin {
 
   void _processList(List v) {
     for (var element in v) {
-      _parseV(element);
+      _processV(element);
     }
   }
 
@@ -64,22 +81,30 @@ class Parser with RandomMixin {
     final Plotto plotto = Plotto.getInstance();
     final MasterConflict conflict = plotto.fetchConflictById(v);
     final ConflictWrapper wrapper = ConflictWrapper(conflict: conflict);
-    _description += wrapper.description;
+    _processing += wrapper.description;
+    _leadins.addAll(conflict.leadins);
+    _carryons.add(conflict.carryons);
   }
 
   void _processChoose(List<dynamic> v) {
     final rnd = getRandom(v.length);
     final chosen = v[rnd];
-    _parseV(chosen);
+    _processV(chosen);
   }
 
   void _processInclude(List<dynamic> v) {
     for (var link in v) {
-      _parseV(link);
+      _processV(link);
     }
   }
 
-  void _processTransform(Map<String, String> node) {}
+  void _processTransform(Map<String, String> node) {
+    _processing = node.entries.fold(
+      _processing,
+      (previousValue, element) =>
+          previousValue.replaceAll(element.key, element.value),
+    );
+  }
 
   void _processStart(Map<String, dynamic> node) {
     final String start = node['start'];
@@ -87,7 +112,31 @@ class Parser with RandomMixin {
     if (node.containsKey('end')) {
       end = node['end'];
     }
+    final int startIndex = _processing.indexOf(start);
+    final int endIndex = _processing.indexOf(end);
+    _processing = _processing.substring(startIndex, endIndex);
   }
 
   void _raiseError() {}
+}
+
+class _Stack {
+  int _index = -1;
+  List<String> _list = [];
+
+  void push(dynamic item) {
+    _list[++_index] = item;
+  }
+
+  String pop() {
+    return _list[_index--];
+  }
+
+  String peek() {
+    return _list[_index];
+  }
+
+  bool canPop() {
+    return _index > -1;
+  }
 }
