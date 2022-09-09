@@ -1,6 +1,5 @@
-import 'package:plot_generator/services/parser.dart';
-import 'package:plot_generator/services/plotto.dart';
-
+import 'parser.dart';
+import 'plotto.dart';
 import 'master_conflict.dart';
 
 class ConflictWrapper {

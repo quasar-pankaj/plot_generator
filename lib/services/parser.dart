@@ -82,8 +82,10 @@ class Parser with RandomMixin {
     final MasterConflict conflict = plotto.fetchConflictById(v);
     final ConflictWrapper wrapper = ConflictWrapper(conflict: conflict);
     _processing += wrapper.description;
-    _leadins.addAll(conflict.leadins);
-    _carryons.add(conflict.carryons);
+    List links = _processLinks(conflict.leadins);
+    _leadins.addAll(links);
+    links = _processLinks(conflict.carryons);
+    _carryons.addAll(links);
   }
 
   void _processChoose(List<dynamic> v) {
@@ -118,6 +120,11 @@ class Parser with RandomMixin {
   }
 
   void _raiseError() {}
+
+  List _processLinks(links) {
+    if (links is List) return links;
+    return [links];
+  }
 }
 
 class _Stack {
