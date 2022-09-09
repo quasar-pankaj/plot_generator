@@ -108,4 +108,19 @@ void main() {
     expect(parser.carryons.length, isNonZero);
     expect(parser.leadins.length, isNonZero);
   });
+
+  test('Parses the json 5', () {
+    final conflict = _plotto.conflicts['5'];
+    expect(conflict, isNotNull);
+    final leadins = conflict!.leadins;
+    expect(leadins, isNotNull);
+    final Parser parser = Parser();
+    parser.start(leadins);
+    final description = parser.description;
+    expect(description, isNotNull);
+    expect(description, isNotEmpty);
+
+    expect(parser.carryons.length, isNonZero);
+    expect(parser.leadins.length, isNonZero);
+  });
 }

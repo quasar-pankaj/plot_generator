@@ -1,9 +1,14 @@
+import 'package:plot_generator/services/random_mixin.dart';
+
 import 'parser.dart';
 import 'plotto.dart';
 import 'master_conflict.dart';
 
-class ConflictWrapper {
+class ConflictWrapper with RandomMixin {
   late final MasterConflict _conflict;
+  final List<dynamic> leadins = [];
+  final List<dynamic> carryons = [];
+
   ConflictWrapper({required MasterConflict conflict}) : _conflict = conflict;
 
   String get description {
@@ -59,6 +64,7 @@ class ConflictWrapper {
     final Plotto plotto = Plotto.getInstance();
     final MasterConflict conflict = plotto.fetchConflictById(node);
     final ConflictWrapper wrapper = ConflictWrapper(conflict: conflict);
+
     return wrapper.description;
   }
 }
