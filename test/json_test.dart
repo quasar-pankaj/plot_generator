@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:plot_generator/services/parser.dart';
+import 'package:plot_generator/services/conflict.dart';
 import 'package:plot_generator/services/plotto.dart';
 
 void main() {
@@ -69,8 +69,7 @@ void main() {
     expect(conflict, isNotNull);
     final leadins = conflict!.leadins;
     expect(leadins, isNotNull);
-    final Parser parser = Parser();
-    parser.start(leadins);
+    final Conflict parser = Conflict(leadins);
     final description = parser.description;
     expect(description, isNotNull);
     expect(description, isNotEmpty);
@@ -84,8 +83,7 @@ void main() {
     expect(conflict, isNotNull);
     final leadins = conflict!.leadins;
     expect(leadins, isNotNull);
-    final Parser parser = Parser();
-    parser.start(leadins);
+    final Conflict parser = Conflict(leadins);
     final description = parser.description;
     expect(description, isNotNull);
     expect(description, isNotEmpty);
@@ -99,8 +97,7 @@ void main() {
     expect(conflict, isNotNull);
     final leadins = conflict!.leadins;
     expect(leadins, isNotNull);
-    final Parser parser = Parser();
-    parser.start(leadins);
+    final Conflict parser = Conflict(leadins);
     final description = parser.description;
     expect(description, isNotNull);
     expect(description, isNotEmpty);
@@ -114,8 +111,7 @@ void main() {
     expect(conflict, isNotNull);
     final leadins = conflict!.leadins;
     expect(leadins, isNotNull);
-    final Parser parser = Parser();
-    parser.start(leadins);
+    final Conflict parser = Conflict(leadins);
     final description = parser.description;
     expect(description, isNotNull);
     expect(description, isNotEmpty);

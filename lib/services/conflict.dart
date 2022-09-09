@@ -1,9 +1,10 @@
-import 'description_builder.dart';
+import 'conflict_builder.dart';
+import 'master_clause_b.dart';
 import 'master_conflict.dart';
 import 'plotto.dart';
 import 'random_mixin.dart';
 
-class Parser with RandomMixin {
+class Conflict with RandomMixin {
   String _description = '';
   List<dynamic> _leadins = [];
   List<dynamic> _carryons = [];
@@ -15,8 +16,17 @@ class Parser with RandomMixin {
   List<dynamic> get leadins => _leadins;
   List<dynamic> get carryons => _carryons;
 
-  void start(Map<String, dynamic> node) {
+  Conflict(Map<String, dynamic> node) {
     _processMap(node);
+  }
+
+  Conflict.fromClauseB(MasterClauseB clause) {
+    final len = clause.nodes.length;
+    final id = clause.nodes[getRandom(len)];
+    final Plotto plotto = Plotto.getInstance();
+    final MasterConflict c = plotto.fetchConflictById(id);
+    final ConflictBuilder builder = ConflictBuilder(conflict: c);
+    _description = builder.description;
   }
 
   void _processMap(Map<String, dynamic> node) {
@@ -80,7 +90,7 @@ class Parser with RandomMixin {
   void _processString(String v) {
     final Plotto plotto = Plotto.getInstance();
     final MasterConflict conflict = plotto.fetchConflictById(v);
-    final DescriptionBuilder wrapper = DescriptionBuilder(conflict: conflict);
+    final ConflictBuilder wrapper = ConflictBuilder(conflict: conflict);
     _processing += wrapper.description;
     List links = _processLinks(conflict.leadins);
     _leadins.addAll(links);

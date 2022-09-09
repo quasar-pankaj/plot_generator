@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:plot_generator/services/description_builder.dart';
+import 'package:plot_generator/services/conflict_builder.dart';
 import 'package:plot_generator/services/master_clause_b.dart';
-import 'package:plot_generator/services/master_conflict.dart';
-import 'package:plot_generator/services/parser.dart';
+import 'package:plot_generator/services/conflict.dart';
 import 'package:plot_generator/services/plotto.dart';
 import 'package:plot_generator/services/random_mixin.dart';
 
@@ -17,7 +16,7 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
   late MasterClauseB _masterClauseB;
   late String _masterClauseC;
 
-  late List<Parser> _conflicts = [];
+  late List<Conflict> _conflicts = [];
 
   PlottoBloc() : super(PlottoInitial()) {
     on<LoadRequested>((event, emit) async => await _onLoadRequested(emit));
@@ -41,12 +40,12 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
     final int len = _masterClauseB.nodes.length;
     String node = _masterClauseB.nodes[getRandom(len)];
     final conflict = _plotto.fetchConflictById(node);
-    final DescriptionBuilder wrapper = DescriptionBuilder(conflict: conflict);
+    final ConflictBuilder wrapper = ConflictBuilder(conflict: conflict);
   }
 
   void _onCarryOnRequested(CarryOnRequested event, Emitter<PlottoState> emit) {
     final int index = event.index;
-    final Parser conflict = _conflicts[index];
+    final Conflict conflict = _conflicts[index];
   }
 
   void _onLeadInRequested(LeadInRequested event, Emitter<PlottoState> emit) {}

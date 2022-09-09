@@ -1,11 +1,16 @@
-import 'parser.dart';
+import 'conflict.dart';
 import 'plotto.dart';
 import 'master_conflict.dart';
 
-class DescriptionBuilder {
+class ConflictBuilder {
   late final MasterConflict _conflict;
+  late final List<dynamic> leadins = [];
+  late final List<dynamic> carryons = [];
 
-  DescriptionBuilder({required MasterConflict conflict}) : _conflict = conflict;
+  ConflictBuilder({required MasterConflict conflict}) : _conflict = conflict {
+    leadins.addAll(conflict.leadins);
+    carryons.addAll(conflict.carryons);
+  }
 
   String get description {
     if (_conflict.description is String) {
@@ -34,8 +39,7 @@ class DescriptionBuilder {
   }
 
   String _processMap(Map<dynamic, dynamic> element) {
-    final Parser parser = Parser();
-    parser.start(Map.from(element));
+    final Conflict parser = Conflict(Map.from(element));
     return parser.description;
   }
 
@@ -59,7 +63,7 @@ class DescriptionBuilder {
   String _fetchConflict(String node) {
     final Plotto plotto = Plotto.getInstance();
     final MasterConflict conflict = plotto.fetchConflictById(node);
-    final DescriptionBuilder wrapper = DescriptionBuilder(conflict: conflict);
+    final ConflictBuilder wrapper = ConflictBuilder(conflict: conflict);
 
     return wrapper.description;
   }
