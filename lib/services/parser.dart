@@ -1,4 +1,4 @@
-import 'conflict_wrapper.dart';
+import 'description_builder.dart';
 import 'master_conflict.dart';
 import 'plotto.dart';
 import 'random_mixin.dart';
@@ -80,7 +80,7 @@ class Parser with RandomMixin {
   void _processString(String v) {
     final Plotto plotto = Plotto.getInstance();
     final MasterConflict conflict = plotto.fetchConflictById(v);
-    final ConflictWrapper wrapper = ConflictWrapper(conflict: conflict);
+    final DescriptionBuilder wrapper = DescriptionBuilder(conflict: conflict);
     _processing += wrapper.description;
     List links = _processLinks(conflict.leadins);
     _leadins.addAll(links);

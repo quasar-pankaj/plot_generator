@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:plot_generator/services/conflict_wrapper.dart';
+import 'package:plot_generator/services/description_builder.dart';
 import 'package:plot_generator/services/master_clause_b.dart';
 import 'package:plot_generator/services/master_conflict.dart';
 import 'package:plot_generator/services/parser.dart';
@@ -41,8 +41,7 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
     final int len = _masterClauseB.nodes.length;
     String node = _masterClauseB.nodes[getRandom(len)];
     final conflict = _plotto.fetchConflictById(node);
-    final ConflictWrapper wrapper = ConflictWrapper(conflict: conflict);
-    pars
+    final DescriptionBuilder wrapper = DescriptionBuilder(conflict: conflict);
   }
 
   void _onCarryOnRequested(CarryOnRequested event, Emitter<PlottoState> emit) {
