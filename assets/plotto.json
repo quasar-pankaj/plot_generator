@@ -46034,7 +46034,11 @@
 			"description": [
 				" A masquerades as a servant in the household of F-B, father of B, the girl ae loves * A, enacting the role of a servant, rescues B from an accident by heroic bravery ",
 				[
-					"181a -*",
+					{
+						"v": "181a",
+						"start": "",
+						"end": "*"
+					},
 					{
 						"v": "851-1",
 						"start": "",
