@@ -3,15 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:plot_generator/bloc/plotto_bloc.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   group('PlottoBloc', () {
-    PlottoBloc bloc = PlottoBloc();
-    setUp(() {});
-    tearDown(() {});
+    late final PlottoBloc bloc;
+    setUp(() => bloc = PlottoBloc());
     blocTest<PlottoBloc, PlottoState>(
-      'description',
+      'Bloc initial.',
       build: () => bloc,
       act: (bloc) => bloc.add(LoadRequested()),
-      expect: () => PlottoLoaded(),
+      wait: Duration(seconds: 2),
+      expect: () => [PlottoLoading(), PlottoLoaded()],
     );
   });
 }
