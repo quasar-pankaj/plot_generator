@@ -35,10 +35,10 @@ class NodeBuilder with RandomMixin {
   void _processOp(String op, dynamic node) {
     switch (op) {
       case '+':
-        _processJoin(List.from(['v']));
+        _processJoin(List.from(node['v']));
         break;
       case '?':
-        _processChoose(List.from(['v']));
+        _processChoose(List.from(node['v']));
         break;
     }
   }

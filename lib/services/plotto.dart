@@ -9,6 +9,7 @@ import 'random_mixin.dart';
 class Plotto with RandomMixin {
   Plotto._private();
   static Plotto? _instance;
+  late bool _initialized = false;
   factory Plotto.getInstance() {
     _instance ??= Plotto._private();
     return _instance!;
@@ -21,6 +22,7 @@ class Plotto with RandomMixin {
   late final Map<String, MasterConflict> conflicts;
 
   Future<void> loadJson() async {
+    if (_initialized) return;
     String data = await rootBundle.loadString("assets/plotto.json");
     final Map<String, dynamic> json = Map.from(jsonDecode(data));
     masterClauseA = List.from(json['masterClauseA']);
@@ -31,6 +33,8 @@ class Plotto with RandomMixin {
     final Map<String, dynamic> c = json['conflicts'];
     conflicts =
         c.map((key, value) => MapEntry(key, MasterConflict.fromJson(value)));
+
+    _initialized = true;
   }
 
   String get randomAClause {
