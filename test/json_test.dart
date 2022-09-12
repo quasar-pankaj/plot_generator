@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:plot_generator/services/description_builder.dart';
 import 'package:plot_generator/services/node_builder.dart';
 import 'package:plot_generator/services/plotto.dart';
 
@@ -118,5 +119,13 @@ void main() {
 
     expect(parser.carryons.length, isNonZero);
     expect(parser.leadins.length, isNonZero);
+  });
+
+  test('description builder', () {
+    final conflict = _plotto.conflicts['5']!;
+    expect(conflict, isNotNull);
+    final DescriptionBuilder builder = DescriptionBuilder(conflict: conflict);
+    expect(builder.descriptiom, isNotNull);
+    expect(builder.descriptiom, isNotEmpty);
   });
 }
