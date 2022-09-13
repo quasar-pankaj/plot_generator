@@ -14,13 +14,5 @@ void main() {
       wait: Duration(seconds: 2),
       expect: () => [PlottoLoading(), PlottoLoaded()],
     );
-
-    blocTest<PlottoBloc, PlottoState>(
-      'Bloc skeleton request.',
-      build: () => bloc,
-      act: (bloc) => bloc.add(SkeletonRequested()),
-      wait: Duration(seconds: 2),
-      expect: () => [isA<SkeletonGenerated>(), isA<PlottoGenerated>()],
-    );
   });
 }

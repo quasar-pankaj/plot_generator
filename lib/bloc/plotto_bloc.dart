@@ -30,12 +30,6 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
     _masterClauseB = _plotto.randomBClause;
     _masterClauseC = _plotto.randomCClause;
 
-    emit(SkeletonGenerated(
-      masterClauseA: _masterClauseA,
-      masterClauseB: _masterClauseB.description,
-      masterClauseC: _masterClauseC,
-    ));
-
     final int len = _masterClauseB.nodes.length;
     String node = _masterClauseB.nodes[getRandom(len)];
     final conflict = Conflict.fromLink(node, _plotto);
@@ -43,6 +37,9 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
 
     emit(
       PlottoGenerated(
+        masterClauseA: _masterClauseA,
+        masterClauseB: _masterClauseB.description,
+        masterClauseC: _masterClauseC,
         conflicts: _conflicts.map((e) => e.description).toList(),
       ),
     );
@@ -55,11 +52,14 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
     if (index == _conflicts.length - 1) {
       _conflicts.add(carryon);
     } else {
-      _conflicts.insert(index, carryon);
+      _conflicts.insert(index + 1, carryon);
     }
 
     emit(
       PlottoGenerated(
+        masterClauseA: _masterClauseA,
+        masterClauseB: _masterClauseB.description,
+        masterClauseC: _masterClauseC,
         conflicts: _conflicts.map((e) => e.description).toList(),
       ),
     );
@@ -73,6 +73,9 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
 
     emit(
       PlottoGenerated(
+        masterClauseA: _masterClauseA,
+        masterClauseB: _masterClauseB.description,
+        masterClauseC: _masterClauseC,
         conflicts: _conflicts.map((e) => e.description).toList(),
       ),
     );

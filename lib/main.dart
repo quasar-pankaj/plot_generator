@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plot_generator/bloc/plotto_bloc.dart';
-import 'package:plot_generator/pages/home_screen.dart';
+
+import 'pages/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
