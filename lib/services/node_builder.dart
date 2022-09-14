@@ -81,6 +81,7 @@ class NodeBuilder with RandomMixin {
   }
 
   void _processChoose(List<dynamic> nodes) {
+    if (nodes.isEmpty) return;
     final int rnd = getRandom(nodes.length);
     dynamic node = nodes[rnd];
     _processV(node);

@@ -48,7 +48,8 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
   void _onCarryOnRequested(CarryOnRequested event, Emitter<PlottoState> emit) {
     final int index = event.index;
     final Conflict conflict = _conflicts[index];
-    final Conflict carryon = conflict.probeCarryon;
+    final Conflict? carryon = conflict.probeCarryon;
+    if (carryon == null) return;
     if (index == _conflicts.length - 1) {
       _conflicts.add(carryon);
     } else {
@@ -68,7 +69,8 @@ class PlottoBloc extends Bloc<PlottoEvent, PlottoState> with RandomMixin {
   void _onLeadInRequested(LeadInRequested event, Emitter<PlottoState> emit) {
     final int index = event.index;
     final Conflict conflict = _conflicts[index];
-    final Conflict leadIn = conflict.probeLeadin;
+    final Conflict? leadIn = conflict.probeLeadin;
+    if (leadIn == null) return;
     _conflicts.insert(index, leadIn);
 
     emit(
