@@ -16,7 +16,8 @@ class MasterClauseB with RandomMixin {
     description = json['description'];
   }
 
-  MasterConflict get randomConflict {
+  MasterConflict? get randomConflict {
+    if (nodes.isEmpty) return null;
     int rnd = getRandom(nodes.length);
     String node = nodes[rnd];
     final plotto = Plotto.getInstance();

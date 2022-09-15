@@ -28,14 +28,16 @@ class Conflict with RandomMixin {
     _carruons.addAll(builder.carryons);
   }
 
-  Conflict get probeLeadin {
-    final int rnd = getRandom(leadins.length);
+  Conflict? get probeLeadin {
+    if (_leadins.isEmpty) return null;
+    final int rnd = getRandom(_leadins.length);
     Map<String, dynamic> node = _leadins[rnd];
     return Conflict.fromMap(node);
   }
 
-  Conflict get probeCarryon {
-    final int rnd = getRandom(carryons.length);
+  Conflict? get probeCarryon {
+    if (_carruons.isEmpty) return null;
+    final int rnd = getRandom(_carruons.length);
     Map<String, dynamic> node = _carruons[rnd];
     return Conflict.fromMap(node);
   }
