@@ -13,9 +13,8 @@ https://user-images.githubusercontent.com/4270836/159447084-d5564095-07fb-4271-8
 # What's new in Version 2.0
 
 In this release I have revamped ti UI as shown below:
-
-![Sc![Screenshot from 2022-09-15 14-57-46](https://user-images.githubusercontent.com/4270836/190369902-66b0815a-8c8a-490e-906a-18ccca61231a.png)
-reenshot from 2022-09-15 14-56-51](https://user-images.githubusercontent.com/4270836/190369874-78e76bb0-02df-4230-870c-3967448f7b38.png)
+![Screenshot from 2022-09-15 14-56-51](https://user-images.githubusercontent.com/4270836/190370785-21f762b3-5bfa-4342-ac63-42cdfa3ec297.png)
+![Screenshot from 2022-09-15 14-57-46](https://user-images.githubusercontent.com/4270836/190370830-931b67b1-5c76-44bf-9944-a4367490232c.png)
 
 There are arrows in every list item to fetch LeadIns or CarryOns and the FAB regenerates the skeleton.
 
