@@ -18,6 +18,6 @@ In this release I have revamped ti UI as shown below:
 
 There are arrows in every list item to fetch LeadIns or CarryOns and the FAB regenerates the skeleton.
 
-
+## If you found this project useful consider buying me a coffee
 
 https://www.buymeacoffee.com/quasarpankx
