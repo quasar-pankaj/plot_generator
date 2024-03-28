@@ -8,7 +8,7 @@
 PRODUCT_NAME = plot_generator
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.pankaj.plotGenerator
+PRODUCT_BUNDLE_IDENTIFIER = com.example.plotGenerator
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 com.pankaj. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 com.example. All rights reserved.
