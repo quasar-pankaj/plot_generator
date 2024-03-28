@@ -16,11 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        backgroundColor: Colors.lightBlue,
         splashColor: Colors.lightBlueAccent,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(secondary: Colors.blueAccent),
+        visualDensity: VisualDensity.adaptivePlatformDensity, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+            .copyWith(secondary: Colors.blueAccent).copyWith(background: Colors.lightBlue),
       ),
       home: SafeArea(
         child: BlocProvider<PlottoBloc>(
