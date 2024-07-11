@@ -12,9 +12,3 @@ In this release I have revamped ti UI as shown below:
 ![Screenshot from 2022-09-15 14-57-46](https://user-images.githubusercontent.com/4270836/190370830-931b67b1-5c76-44bf-9944-a4367490232c.png)
 
 There are arrows in every list item to fetch LeadIns or CarryOns and the FAB regenerates the skeleton.
-
-### If you found this project useful consider buying me a coffee
-
-<a href="https://www.buymeacoffee.com/quasarpankx"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=quasarpankx&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
-
-![bmc_qr](https://user-images.githubusercontent.com/4270836/218442947-582ee8fa-391c-4b70-8ca0-94ff5ccdfef8.png)
